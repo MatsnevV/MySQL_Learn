@@ -1,0 +1,5 @@
+--создание с проверкой сущесвует ли (IF NOT EXISTS)
+CREATE TABLE IF NOT EXISTS user(k INT);
+
+--отображение в колонку
+ select * from users where home like 'user%'\G;

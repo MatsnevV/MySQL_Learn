@@ -1,0 +1,17 @@
+[mysqld1]
+user      = mysql
+pid-file    = /var/run/mysqld/mysqld1.pid
+socket    = /var/run/mysqld/mysqld1.sock
+port      = 3307
+basedir     = /usr
+datadir     = /var/lib/mysql1
+tmpdir    = /tmp
+
+[mysqld2]
+user      = mysql
+pid-file    = /var/run/mysqld/mysqld1.pid
+socket    = /var/run/mysqld/mysqld1.sock
+port      = 3308
+basedir     = /usr
+datadir     = /var/lib/mysql1
+tmpdir    = /tmp

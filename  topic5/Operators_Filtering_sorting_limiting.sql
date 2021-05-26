@@ -29,15 +29,18 @@ order by value=0, value;
 
 select * 
 from users 
-where date_format(birthday_at, '%m') = 05 or date_format(birthday_at, '%m')= 08;
+where date_format(birthday_at, '%m') in ('may', 'august');
 
 -- 5. Из таблицы catalogs извлекаются записи при помощи запроса. 
 -- SELECT * FROM catalogs WHERE id IN (5, 1, 2); Отсортируйте записи в порядке, заданном в списке IN.
 
 
 select * 
-from (select * from catalogs where id in (5, 1, 2)) as rr
-order by field(id, 5, 1, 2);
+from catalogs 
+where 
+  id in (5, 1, 2)
+order by 
+  field(id, 5, 1, 2);
 
 -- -----------2---------------------
 -- Практическое задание теме «Агрегация данных»:
@@ -45,10 +48,22 @@ order by field(id, 5, 1, 2);
 -- 1. Подсчитайте средний возраст пользователей в таблице users.
 
 select 
-  avg((year(current_date())-year(birthday_at))-(right(current_date() ,5) < right (birthday_at,5))) as age
-from users
-age;
+  avg((year(current_date())-year(birthday_at))-(right(current_date() ,5) < right (birthday_at,5)))
+from 
+users;
 
 -- 2. Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели. 
 -- Следует учесть, что необходимы дни недели текущего года, а не года рождения.
 
+SELECT 
+  date_format(date(concat_ws('-',year(now()), month(birthday_at),day(birthday_at))), '%W') as day,
+  count(*) as total
+FROM 
+users
+group by
+  day
+order by 
+  total desc;
+
+  -- 3. (по желанию) Подсчитайте произведение чисел в столбце таблицы
+SELECT ROUND(EXP(SUM(LN(id)))) FROM catalogs;
