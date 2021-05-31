@@ -19,8 +19,8 @@ passwords VARCHAR(50) NOT NULL COMMENT "PASSWORD",
 DROP TABLE IF EXISTS profiles;
 CREATE TABLE profiles (
 id serial PRIMARY KEY, 
-user_id int unsigned COMMENT "cсылка на поьзователя",
-company_id int unsigned COMMENT "ссылка на компанию",
+user_id bigint unsigned COMMENT "cсылка на поьзователя",
+company_id bigint unsigned COMMENT "ссылка на компанию",
 email VARCHAR(100) NOT NULL UNIQUE COMMENT "Почта",
 rating double(16,1) default 0.0 comment "рейтинг расчитывается на по карме и количество постов ",
 confirmed_at datetime DEFAULT CURRENT_TIMESTAMP,
@@ -31,8 +31,8 @@ confirmed_at datetime DEFAULT CURRENT_TIMESTAMP,
 -- Subscriptions подписки
 DROP TABLE IF exists subscriptions;
 CREATE TABLE subscriptions (
-subscriptions_id int unsigned NOT null comment "подписчики",
-subscribers_id int unsigned NOT NULL comment "подписки",
+subscriptions_id bigint unsigned NOT null comment "подписчики",
+subscribers_id bigint unsigned NOT NULL comment "подписки",
   created_at DATETIME DEFAULT NOW(),
   edited_at DATETIME DEFAULT NOW() ON UPDATE NOW());
 
@@ -40,8 +40,8 @@ subscribers_id int unsigned NOT NULL comment "подписки",
 DROP TABLE IF exists messages;
 CREATE TABLE messages (
   id serial PRIMARY KEY,
-  from_user_id int unsigned NOT NULL ,
-  to_user_id int unsigned NOT NULL ,
+  from_user_id bigint unsigned NOT NULL ,
+  to_user_id bigint unsigned NOT NULL ,
   body text NOT NULL ,
   media_id int unsigned DEFAULT NULL,
   is_important tinyint(1) DEFAULT NULL,
@@ -61,16 +61,16 @@ DROP TABLE IF EXISTS media;
 CREATE TABLE media (
 id serial PRIMARY KEY, 
 filename varchar(255) not null comment "ссылка на хранилеще",
-size int NOT NULL COMMENT "размер",
+size bigint NOT NULL COMMENT "размер",
 metadata json DEFAULT null comment "данные ",
-media_type_id int unsigned NOT NULL COMMENT "тип данных",
+media_type_id bigint unsigned NOT NULL COMMENT "тип данных",
   created_at DATETIME DEFAULT NOW(),
   edited_at DATETIME DEFAULT NOW() ON UPDATE NOW()
   );
  
 DROP TABLE IF EXISTS media_types;
 CREATE TABLE media_types (
-  id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+  id bigint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
   type VARCHAR(255) NOT NULL UNIQUE
 );
 
@@ -78,8 +78,8 @@ CREATE TABLE media_types (
 DROP TABLE IF EXISTS comments;
 CREATE TABLE comments (
 id serial PRIMARY KEY, 
-user_id int unsigned NOT NULL COMMENT"cсылка на узера",
-media_id int unsigned COMMENT "ccылка на медиа если есть",
+user_id bigint unsigned NOT NULL COMMENT"cсылка на узера",
+media_id bigint unsigned COMMENT "ccылка на медиа если есть",
   created_at DATETIME DEFAULT NOW(),
   edited_at DATETIME DEFAULT NOW() ON UPDATE NOW()
  );
@@ -88,10 +88,10 @@ media_id int unsigned COMMENT "ccылка на медиа если есть",
 DROP TABLE IF EXISTS carmas;
 CREATE TABLE carmas (
 id serial PRIMARY KEY, 
-user_id int unsigned NOT NULL COMMENT"кто оценил",
-target_id int unsigned NOT NULL COMMENT"чему поставлена",
+user_id bigint unsigned NOT NULL COMMENT"кто оценил",
+target_id bigint unsigned NOT NULL COMMENT"чему поставлена",
 target_type ENUM('comment', 'users', 'posts', 'company') NOT NULL,
-target_carma int default 0 comment "оценка",
+target_carma bigint default 0 comment "оценка",
   created_at DATETIME DEFAULT NOW(),
   edited_at DATETIME DEFAULT NOW() ON UPDATE NOW()
  );
@@ -101,13 +101,21 @@ target_carma int default 0 comment "оценка",
 DROP TABLE IF exists posts;
 create table posts(
   id serial PRIMARY KEY, 
-  user_id INT UNSIGNED NOT null comment "ссыдка на пользователя",
+  user_id bigint UNSIGNED NOT null comment "ссыдка на пользователя",
   head varchar(255) comment"заголовок",
   body TEXT NOT NULL COMMENT "Markdown",
-  media_id int unsigned COMMENT "ссылки на медиа",
-  cloud_tag text comment"теги для быстрого поиска по группам постов",
+  media_id bigint unsigned COMMENT "ссылки на медиа",
+  cloud_tag_id bigint UNSIGNED ,
   is_public BOOLEAN DEFAULT TRUE,
   is_archived BOOLEAN DEFAULT FALSE,
+  created_at DATETIME DEFAULT NOW(),
+  edited_at DATETIME DEFAULT NOW() ON UPDATE NOW()
+ );
+
+DROP TABLE IF EXISTS cloud_tags;
+CREATE TABLE cloud_tags (
+id serial PRIMARY KEY, 
+cloud_tag TEXT NOT NULL comment"теги для быстрого поиска по группам постов",
   created_at DATETIME DEFAULT NOW(),
   edited_at DATETIME DEFAULT NOW() ON UPDATE NOW()
  );

@@ -8,3 +8,8 @@
     7   представления (минимум 2);
     8   хранимые процедуры / триггеры;
 
+исправление
+    1. passwords VARCHAR(50) -> password
+*   2. subscriptions_id int unsigned NOT null comment "подписчики",subscribers_id int unsigned NOT NULL comment "подписки", Лучше в единственном числе, так как это ссылки на определённую подписку и на определённого подписчика.
+*   3. CREATE TABLE company -> companies, вероятно лучше для единообразия именования таблиц.
+*   4. cloud_tag text - нарушение требований третьей нормальной формы.

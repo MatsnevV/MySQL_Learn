@@ -8,8 +8,20 @@ ALTER TABLE media
   ADD CONSTRAINT media_type_id_fk 
     FOREIGN KEY (media_type_id) REFERENCES media_types(id)
       ON DELETE CASCADE;
-
      
+
+desc subscriptions;     
+ALTER TABLE subscriptions RENAME COLUMN subscriptions_id TO subscription_id;
+ALTER TABLE subscriptions RENAME COLUMN subscribers_id TO subscriber_id;
+
+RENAME TABLE company TO companies;
+
+ALTER TABLE users RENAME COLUMN passwords TO password;
+
+ALTER TABLE posts RENAME COLUMN cloud_tag TO cloud_tag_id;
+update posts set cloud_tag_id =0 ;
+ALTER TABLE posts MODIFY COLUMN cloud_tag_id bigINT UNSIGNED; 
+
 ALTER TABLE profiles MODIFY COLUMN company_id bigINT UNSIGNED;     
 ALTER TABLE profiles MODIFY COLUMN company_id bigINT UNSIGNED;
 ALTER TABLE subscriptions MODIFY COLUMN subscriptions_id bigINT UNSIGNED;
@@ -75,7 +87,8 @@ ALTER TABLE posts
 ALTER TABLE posts    
   ADD constraint posts_media_id_fk 
     FOREIGN KEY (media_id) REFERENCES media(id) 
-         ON DELETE cascade;         
+         ON DELETE cascade;   
+        
 desc subscriptions;
       desc profiles;
       
